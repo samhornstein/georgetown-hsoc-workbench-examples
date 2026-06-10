@@ -48,20 +48,6 @@ Replace `"mp"` with your licensed edition (`"mp"`, `"se"`, or `"be"`).
 
 See `stata_test.ipynb` for a working example notebook.
 
-## File layout
-
-```
-~/workspace/uploads/stata/
-  StataNow19Linux64.tar.gz   # Stata installer archive
-  stata19/                    # Installed Stata (persistent)
-
-~/repos/workbench-examples/stata/
-  install_stata.sh            # Installation script
-  run_stinit.sh               # License initialization script
-  setup_pystata.sh            # Python/Jupyter integration setup
-  README.md                   # This file
-```
-
 ## Notes
 
 - The installation persists across app restarts because `~/workspace/` is backed by GCS.
