@@ -40,18 +40,29 @@ echo ""
 
 echo ""
 echo "=== Step 4: Copy to persistent workspace storage ==="
+echo "This may take 10-15 minutes due to the large number of files."
 rm -rf "$INSTALLDIR"
 mkdir -p "$INSTALLDIR"
-cp -r "$LOCALINSTALL"/* "$INSTALLDIR"/
+(cd "$LOCALINSTALL" && tar cf - .) | (cd "$INSTALLDIR" && tar xf -)
 echo "Copied to $INSTALLDIR"
 
 echo ""
-echo "=== Installation complete ==="
-echo "Next step: run the license initialization:"
-echo "  cd $LOCALINSTALL && sudo ./stinit"
-echo "  (then copy the license file to persistent storage)"
-echo "  cp $LOCALINSTALL/stata.lic $INSTALLDIR/"
+echo "=== Step 5: Verify installation ==="
+VERIFY_OK=true
+for d in ado/base utilities/pystata; do
+    if [ -d "$INSTALLDIR/$d" ]; then
+        echo "  $d: OK"
+    else
+        echo "  $d: MISSING"
+        VERIFY_OK=false
+    fi
+done
+if [ "$VERIFY_OK" = false ]; then
+    echo "WARNING: Some directories are missing. The copy to GCS may have"
+    echo "failed to preserve directory structure. Check the installation."
+fi
+
 echo ""
-echo "Then in Python:"
-echo "  import stata_setup"
-echo "  stata_setup.config(\"$INSTALLDIR\", \"mp\")"
+echo "=== Installation complete ==="
+echo "Next step: initialize the license:"
+echo "  sudo bash ~/repos/workbench-examples/stata/run_stinit.sh"

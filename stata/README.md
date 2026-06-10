@@ -29,7 +29,15 @@ You will be prompted for your serial number, code, and authorization. The script
 
 This step can be run by a different user who holds the license credentials.
 
-## Usage in Python
+### Step 3: Set up Python integration
+
+```bash
+bash ~/repos/workbench-examples/stata/setup_pystata.sh
+```
+
+This copies the `pystata` Python package to the persistent mount (one-time) and installs the `stata_setup` pip package. Re-run after an app restart if `pip install` didn't persist.
+
+## Usage in Python / Jupyter
 
 ```python
 import stata_setup
@@ -37,6 +45,8 @@ stata_setup.config("/home/jupyter/workspace/uploads/stata/stata19", "mp")
 ```
 
 Replace `"mp"` with your licensed edition (`"mp"`, `"se"`, or `"be"`).
+
+See `stata_test.ipynb` for a working example notebook.
 
 ## File layout
 
@@ -48,6 +58,7 @@ Replace `"mp"` with your licensed edition (`"mp"`, `"se"`, or `"be"`).
 ~/repos/workbench-examples/stata/
   install_stata.sh            # Installation script
   run_stinit.sh               # License initialization script
+  setup_pystata.sh            # Python/Jupyter integration setup
   README.md                   # This file
 ```
 
